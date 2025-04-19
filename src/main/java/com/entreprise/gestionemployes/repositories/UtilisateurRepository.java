@@ -1,0 +1,10 @@
+package com.entreprise.gestionemployes.repositories;
+
+import com.entreprise.gestionemployes.entities.Utilisateur;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface UtilisateurRepository extends JpaRepository<Utilisateur, Integer> {
+    Optional<Utilisateur> findByUsername(String username);
+}

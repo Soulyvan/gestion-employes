@@ -1,6 +1,8 @@
 package com.entreprise.gestionemployes.entities;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,17 +10,21 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Utilisateur {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(unique = true, nullable = false)
-    private String nomEntreprise;
+    private String username;
 
-    @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(nullable = false)
-    private String motDePasse;
+    private String password;
+
+    private String role;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "entreprise_id")
+    private Entreprise entreprise;
 }

@@ -1,31 +1,37 @@
 package com.entreprise.gestionemployes.services;
+
+import com.entreprise.gestionemployes.entities.Entreprise;
 import com.entreprise.gestionemployes.entities.Utilisateur;
-import jakarta.ejb.Stateless;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
-import jakarta.persistence.PersistenceContext;
+import com.entreprise.gestionemployes.repositories.EntrepriseRepository;
+import com.entreprise.gestionemployes.repositories.UtilisateurRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
-
-@Stateless
+@Service
+@RequiredArgsConstructor
 public class UtilisateurService {
-    @PersistenceContext(unitName = "gestionPU")
-    private EntityManager em;
+    private final UtilisateurRepository userRepository;
+    private final EntrepriseRepository entrepriseRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public void inscrire(Utilisateur utilisateur) {
-        em.persist(utilisateur);
-    }
-
-    public Utilisateur trouverParEmailEtMotDePasse(String email, String motDePasse) {
-        try {
-            return em.createQuery(
-                            "SELECT u FROM Utilisateur u WHERE u.email = :email AND u.motDePasse = :mdp",
-                            Utilisateur.class
-                    )
-                    .setParameter("email", email)
-                    .setParameter("mdp", motDePasse)
-                    .getSingleResult();
-        } catch (NoResultException e) {
-            return null;
+    public void registerUser(String username, String email, String password, String entrepriseNom) {
+        Entreprise entreprise = entrepriseRepository.findByNom(entrepriseNom);
+        if (entreprise == null) {
+            entreprise = entrepriseRepository.save(
+                    Entreprise.builder().nom(entrepriseNom).build()
+            );
         }
+
+        Utilisateur user = Utilisateur.builder()
+                .username(username)
+                .email(email)
+                .password(passwordEncoder.encode(password))
+                .entreprise(entreprise)
+                .role("USER")
+                .build();
+
+        userRepository.save(user);
     }
 }
