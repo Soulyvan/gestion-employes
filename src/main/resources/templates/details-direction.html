@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Détail de la Direction</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+  <h2>Détail de la Direction</h2>
+
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title" th:text="${direction.nom}"></h4>
+      <p class="card-text">Informations futures sur les employés de la direction ici.</p>
+    </div>
+  </div>
+
+  <a th:href="@{/directions}" class="btn btn-secondary mt-3">Retour à la liste</a>
+</div>
+</body>
+</html>

@@ -20,7 +20,7 @@
 
                     <form th:action="@{/register}" th:object="${entreprise}" method="post">
                         <div class="mb-3">
-                            <label for="username" class="form-label">Nom d'utilisateur</label>
+                            <label for="username" class="form-label">Nom de l'entreprise</label>
                             <input type="text" id="username" th:field="*{username}" class="form-control" required>
                             <div class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
                         </div>
@@ -29,6 +29,24 @@
                             <label for="email" class="form-label">Email</label>
                             <input type="email" id="email" th:field="*{email}" class="form-control" required>
                             <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="adresse" class="form-label">Adresse</label>
+                            <input type="text" id="adresse" th:field="*{adresse}" class="form-control" required>
+                            <div class="text-danger" th:if="${#fields.hasErrors('adresse')}" th:errors="*{adresse}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="siteWeb" class="form-label">Site web</label>
+                            <input type="text" id="siteWeb" th:field="*{siteWeb}" class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="secteursActivite" class="form-label">Secteurs d'activité</label>
+                            <input type="text" id="secteursActivite" th:field="*{secteursActivite}" class="form-control" placeholder="Informatique, Télécommunications" required>
+                            <div class="text-danger" th:if="${#fields.hasErrors('secteursActivite')}" th:errors="*{secteursActivite}"></div>
+                            <small class="text-info">Les secteurs d'activités doivent être séparés par des virgules ", "</small>
                         </div>
 
                         <div class="mb-3">
