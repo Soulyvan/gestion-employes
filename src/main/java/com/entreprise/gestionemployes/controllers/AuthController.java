@@ -4,6 +4,7 @@ import com.entreprise.gestionemployes.dto.EntrepriseDto;
 import com.entreprise.gestionemployes.services.EntrepriseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,7 +26,13 @@ public class AuthController implements Serializable {
     // Page d'accueil qui redirige vers la connexion
     @GetMapping("/")
     public String home() {
-        return "redirect:/login";
+        // return "redirect:/login";
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+
+        boolean isAuthenticated = auth != null && auth.isAuthenticated()
+                && !(auth.getPrincipal() instanceof String && auth.getPrincipal().equals("anonymousUser"));
+
+        return isAuthenticated ? "redirect:/dashboard" : "redirect:/login";
     }
 
     // Page de connexion

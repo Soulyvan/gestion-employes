@@ -12,11 +12,29 @@
   <div class="card">
     <div class="card-body">
       <h4 class="card-title" th:text="${direction.nom}"></h4>
-      <p class="card-text">Informations futures sur les employés de la direction ici.</p>
+      <p class="card-text">Liste des employés rattachés à cette direction :</p>
+      <div th:if="${#lists.isEmpty(employes)}">
+        <p>Aucun employé pour l’instant.</p>
+      </div>
+      <ul class="list-group" th:if="${!#lists.isEmpty(employes)}">
+        <li class="list-group-item d-flex justify-content-between align-items-center"
+            th:each="employe : ${employes}">
+        <span>
+            <strong th:text="${employe.nom + ' ' + employe.prenom}"></strong>
+            <span class="text-muted" th:text="' - ' + ${employe.fonction}"></span>
+        </span>
+          <a th:href="@{/employes/{id}(id=${employe.id})}" class="btn btn-sm btn-outline-primary">Voir fiche</a>
+        </li>
+      </ul>
     </div>
   </div>
 
-  <a th:href="@{/directions}" class="btn btn-secondary mt-3">Retour à la liste</a>
+  <a th:href="@{/directions/}" class="btn btn-secondary mt-3">Retour à la liste</a>
+</div>
+<div class="text-center m-5">
+  <a th:href="@{/}" class="btn btn-outline-secondary">
+    ⬅ Retour à l'accueil
+  </a>
 </div>
 </body>
 </html>
